@@ -1,0 +1,16 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: test-cluster
+  region: ap-south-1
+
+fargateProfiles:
+  - name: fargate-productcatalog
+    selectors:
+      - namespace: workshop
+        labels:
+          app: prodcatalog
+      - namespace: prodcatalog-ns
+
