@@ -48,17 +48,6 @@ eksctl create iamserviceaccount --cluster $CLUSTER_NAME \
 
 eksctl create fargateprofile --cluster $CLUSTER_NAME --namespace appmesh-system
 
-#  install app mesh
-# Install the App Mesh CRDs
-kubectl apply -k "https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master"
-helm repo add eks https://aws.github.io/eks-charts
-
-helm upgrade -i appmesh-controller eks/appmesh-controller \
-    --namespace appmesh-system \
-    --set region=$AWS_REGION \
-    --set serviceAccount.create=false \
-    --set serviceAccount.name=appmesh-controller
-
 
 
 # Download the IAM policy document for the Envoy proxies
@@ -79,6 +68,18 @@ eksctl create iamserviceaccount \
   --approve
 
 
+
+
+#  install app mesh
+# Install the App Mesh CRDs
+kubectl apply -k "https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master"
+helm repo add eks https://aws.github.io/eks-charts
+
+helm upgrade -i appmesh-controller eks/appmesh-controller \
+    --namespace appmesh-system \
+    --set region=$AWS_REGION \
+    --set serviceAccount.create=false \
+    --set serviceAccount.name=appmesh-controller
 
 
 
