@@ -9,6 +9,9 @@ eksctl create cluster --name $CLUSTER_NAME --region ap-south-1  --fargate
 aws eks --region ap-south-1 update-kubeconfig --name $CLUSTER_NAME
 
 
+
+ eksctl create fargateprofile -f ./clusterconfig.yaml
+
 ###  installing app mesh  
 
 # Create the namespace
