@@ -20,7 +20,7 @@ spec:
       serviceAccountName: prodcatalog-envoy-proxies
       containers:
         - name: frontend-node
-          image: "jojiisacth/frontend_node:${APP_VERSION}"
+          image: "jojiisacth/frontend_node:1.0"
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -77,7 +77,7 @@ spec:
       serviceAccountName: prodcatalog-envoy-proxies
       containers:
         - name: proddetail
-          image: "jojiisacth/catalog_detail:${APP_VERSION}"
+          image: "jojiisacth/catalog_detail:1.0"
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -131,7 +131,7 @@ spec:
       serviceAccountName: prodcatalog-envoy-proxies
       containers:
         - name: prodcatalog
-          image: "jojiisacth/product_catalog:${APP_VERSION}"
+          image: "jojiisacth/product_catalog:1.0"
           imagePullPolicy: Always
           env:
             - name: AGG_APP_URL
