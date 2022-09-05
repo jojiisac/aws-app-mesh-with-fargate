@@ -9,6 +9,10 @@
 
 
   # attachpolicy to pod excecuion role 
+  ## NOTE : --- role name will change each time, get it by the follwing script 
+  aws iam list-roles | grep FargatePodExecutionRole
+
+
   aws iam attach-role-policy \
   --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/eks-fargate-logging-policy \
   --role-name eksctl-test-cluster-cluste-FargatePodExecutionRole-1R24VH5IEDTDK
