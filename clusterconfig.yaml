@@ -9,9 +9,6 @@ metadata:
 fargateProfiles:
   - name: fp-custom
     selectors:
-      - namespace: workshop
-        labels:
-          app: prodcatalog
       - namespace: prodcatalog-ns
       - namespace: kube-system
       - namespace: default 

@@ -15,6 +15,7 @@
 
   aws iam attach-role-policy \
   --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/eks-fargate-logging-policy \
-  --role-name eksctl-test-cluster-cluste-FargatePodExecutionRole-1R24VH5IEDTDK
+  --role-name eksctl-test-cluster-cluste-FargatePodExecutionRole-1TESIKFOGY8QA
+  
+kubectl  apply -f log-creating-app.yml
 
-kubectl  apply -f log-cerating-app.yml 

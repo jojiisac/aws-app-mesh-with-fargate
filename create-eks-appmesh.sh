@@ -1,6 +1,6 @@
 
 
-export ACCOUNT_ID="<your_account_Id>"
+#export ACCOUNT_ID="<your_account_Id>"
 
 export CLUSTER_NAME=test-cluster
 export AWS_REGION=ap-south-1
@@ -91,7 +91,7 @@ helm upgrade -i appmesh-controller eks/appmesh-controller \
 
  aws iam create-policy \
     --policy-name ProdEnvoyNamespaceIAMPolicy \
-    --policy-document  file://./demo/deployment/envoy-iam-policy.json 
+    --policy-document  file://./envoy-iam-policy.json 
 
 eksctl create iamserviceaccount --cluster $CLUSTER_NAME \
   --namespace prodcatalog-ns \
@@ -101,7 +101,7 @@ eksctl create iamserviceaccount --cluster $CLUSTER_NAME \
   --approve 
 
 
-eksctl create fargateprofile -f ./demo/deployment/clusterconfig.yaml
+eksctl create fargateprofile -f ./clusterconfig.yaml
 
 
 
