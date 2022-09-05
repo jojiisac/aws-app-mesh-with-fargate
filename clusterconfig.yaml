@@ -16,4 +16,5 @@ fargateProfiles:
       - namespace: kube-system
       - namespace: default 
       - namespace: appmesh-system
+      - namespace: aws-observability
 
