@@ -11,6 +11,6 @@
   # attachpolicy to pod excecuion role 
   aws iam attach-role-policy \
   --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/eks-fargate-logging-policy \
-  --role-name AmazonEKSFargatePodExecutionRole
+  --role-name eksctl-test-cluster-cluste-FargatePodExecutionRole-1R24VH5IEDTDK
 
 kubectl  apply -f log-cerating-app.yml 

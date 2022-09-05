@@ -12,8 +12,8 @@ data:
         Name cloudwatch_logs
         Match   *
         region ap-south-1
-        log_group_name fluent-bit-cloudwatch
-        log_stream_prefix from-fluent-bit-
+        log_group_name eks-fargate-logs
+        log_stream_prefix feks-fargate-
         auto_create_group true
         log_key log
 
