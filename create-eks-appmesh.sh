@@ -49,10 +49,6 @@ eksctl create iamserviceaccount --cluster $CLUSTER_NAME \
 
 
 
-eksctl create fargateprofile --cluster $CLUSTER_NAME --namespace appmesh-system
-
-
-
 # Download the IAM policy document for the Envoy proxies
 # --curl -o envoy-iam-policy.json https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/config/iam/envoy-iam-policy.json
 
@@ -89,9 +85,6 @@ helm upgrade -i appmesh-controller eks/appmesh-controller \
 
 
 
- aws iam create-policy \
-    --policy-name ProdEnvoyNamespaceIAMPolicy \
-    --policy-document  file://./envoy-iam-policy.json 
 
 eksctl create iamserviceaccount --cluster $CLUSTER_NAME \
   --namespace prodcatalog-ns \
@@ -101,16 +94,19 @@ eksctl create iamserviceaccount --cluster $CLUSTER_NAME \
   --approve 
 
 
-eksctl create fargateprofile -f ./clusterconfig.yaml
 
 
+kubectl  apply -f app/mesh.yaml  
+kubectl  apply -f app/meshed_app.yaml 
+kubectl  apply -f app/base_app.yaml 
+kubectl  apply -f app/virtual_gateway.yml 
 
 
 ## deleting 
 # eksctl delete fargateprofile --cluster test-cluster  fp-default
 
-# eksctl delete fargateprofile --cluster test-cluster  fargate-productcatalog
-# eksctl delete fargateprofile --cluster test-cluster    appmesh-system
+# eksctl delete fargateprofile --cluster test-cluster  fp-custom
+
 
 #  eksctl delete cluster --name test-cluster --region ap-south-1 
 
