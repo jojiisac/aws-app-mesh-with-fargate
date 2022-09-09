@@ -1,0 +1,55 @@
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fluentd-logzio
+  namespace: default
+  labels:
+    k8s-app: fluentd-logzio
+    version: v1
+    kubernetes.io/cluster-service: "true"
+spec:
+  template:
+    metadata:
+      labels:
+        k8s-app: fluentd-logzio
+        version: v1
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+      - name: logzio-forwarder
+        image: logzio/logzio-k8s:latest
+        env:
+        - name:  LOGZIO_TOKEN
+          value: "yourToken"
+        - name:  LOGZIO_URL
+          value: "https://listener.logz.io:8071"
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: dockerlogdir
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+          
+      - name: logcreator
+        image: jojiisacth/logcreator
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: applogdir
+          mountPath: /logs
+      terminationGracePeriodSeconds: 30
+      - name: applogdir
+        emptyDir: {}
+      - name: dockerlogdir
+        emptyDir: {}
