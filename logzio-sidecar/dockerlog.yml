@@ -1,0 +1,72 @@
+
+
+
+# docker run --name docker-collector-logs \
+# --env LOGZIO_TOKEN="VUoucIikuuiPthzYSncaHKSoXJypQZNS" \
+# -v /var/run/docker.sock:/var/run/docker.sock:ro \
+# -v /var/lib/docker/containers:/var/lib/docker/containers \
+# logzio/docker-collector-logs
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fluentd-logzio
+  namespace: default
+  
+spec:
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecar-logz-example
+
+  template:
+    metadata:
+      labels:
+        app: sidecar-logz-example
+
+  
+    spec:
+      containers:
+      - name: logzio-forwarder
+        image: logzio/docker-collector-logs 
+        env:
+        - name:  LOGZIO_TOKEN
+          value: "VUoucIikuuiPthzYSncaHKSoXJypQZNSk"
+        - name:  LOGZIO_URLss
+          value: "listener.logz.io:8071"
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: applogdir
+          mountPath: /var/lib/docker/ctx/mynew
+        - name: applogdir2
+          mountPath: /var/lib/docker/containers/abc
+
+          
+      - name: logcreator
+        image: jojiisacth/logcreator:v1
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: applogdir
+          mountPath: /logs
+    
+      volumes:  
+        - name: applogdir
+          emptyDir: {}
+      
+
+        - name: applogdir2
+          emptyDir: {}
+      

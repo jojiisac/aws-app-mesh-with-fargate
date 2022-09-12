@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace:  aws-observability
+  name: testbusybox
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-2048
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-2048
+    spec:   
+      containers:
+      - name: test-app
+        image: busybox  
+        command: ['sh', '-c', 'while [1]; i=1; do  i=1+1; echo "Log created by test container : item #:${i} " ;  sleep 1; done']
+
+        volumeMounts:
+         - name: sharedrive
+           mountPath: /var/log
+      - name: curl
+        image: jojiisacth/curlrunner
+        command: ['sh', '-c', 'while [1]; i=1; do  i=1+1; echo "Log created by test container : item #:${i}" ;  sleep 1; done']
+
+        volumeMounts:
+         - name: sharedrive
+           mountPath: /logdatas
+
+      volumes:
+      - name: sharedrive
+   
+        emptyDir: {}
+
+      # - name: varlibdockercontainers
+      #   hostPath:
+      #     path: /var/lib/docker/containers

@@ -1,20 +1,12 @@
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluentd-logzio
   namespace: default
-  labels:
-    k8s-app: fluentd-logzio
-    version: v1
-    kubernetes.io/cluster-service: "true"
+  
 spec:
   template:
-    metadata:
-      labels:
-        k8s-app: fluentd-logzio
-        version: v1
-        kubernetes.io/cluster-service: "true"
     spec:
       containers:
       - name: logzio-forwarder
@@ -30,12 +22,12 @@ spec:
           requests:
             cpu: 100m
             memory: 200Mi
-        volumeMounts:
-        - name: varlog
-          mountPath: /var/log
-        - name: dockerlogdir
-          mountPath: /var/lib/docker/containers
-          readOnly: true
+        # volumeMounts:
+        # - name: varlog
+        #   mountPath: /var/log
+        # - name: dockerlogdir
+        #   mountPath: /var/lib/docker/containers
+        #   readOnly: true
           
       - name: logcreator
         image: jojiisacth/logcreator
@@ -45,11 +37,12 @@ spec:
           requests:
             cpu: 100m
             memory: 200Mi
-        volumeMounts:
-        - name: applogdir
-          mountPath: /logs
-      terminationGracePeriodSeconds: 30
-      - name: applogdir
-        emptyDir: {}
-      - name: dockerlogdir
-        emptyDir: {}
+        # volumeMounts:
+        # - name: applogdir
+        #   mountPath: /logs
+    
+  # volumes:  
+  #   - name: applogdir
+  #     emptyDir: {}
+  #   - name: dockerlogdir
+  #     emptyDir: {}
